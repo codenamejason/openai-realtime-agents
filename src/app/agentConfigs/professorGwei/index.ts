@@ -4,8 +4,8 @@ import githubGuide from "./githubGuide";
 import { injectTransferTools } from "../utils";
 
 authenticationAgent.downstreamAgents = [authenticationAgent];
-bountyGuide.downstreamAgents = [bountyGuide, authenticationAgent];
-githubGuide.downstreamAgents = [githubGuide, authenticationAgent];
+bountyGuide.downstreamAgents = [githubGuide, authenticationAgent];
+githubGuide.downstreamAgents = [bountyGuide, authenticationAgent];
 
 const agents = injectTransferTools([
   //   authenticationAgent,
