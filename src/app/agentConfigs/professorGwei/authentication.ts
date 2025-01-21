@@ -17,22 +17,26 @@ const authentication: AgentConfig = {
         properties: {
           firstName: {
             type: "string",
-            description: "The caller's first name",
+            description: "The user's first name",
           },
           lastName: {
             type: "string",
-            description: "The caller's last name",
+            description: "The user's last name",
           },
           email: {
             type: "string",
-            description: "The caller's email address",
+            description: "The user's email address",
           },
           walletAddress: {
             type: "string",
-            description: "The caller's wallet address",
+            description: "The user's wallet address",
+          },
+          githubUsername: {
+            type: "string",
+            description: "The user's Github username",
           },
         },
-        required: ["email", "walletAddress"],
+        required: ["email", "walletAddress", "githubUsername"],
       },
     },
   ],
