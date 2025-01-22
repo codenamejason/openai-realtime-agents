@@ -21,8 +21,9 @@ export function injectTransferTools(agentDefs: AgentConfig[]): AgentConfig[] {
       // Create the transfer_agent tool specific to this agent
       const transferAgentTool: Tool = {
         type: "function",
-        name: "transferAgents",
-        description: `Triggers a transfer of the user to a more specialized agent. 
+        function: {
+          name: "transferAgents",
+          description: `Triggers a transfer of the user to a more specialized agent. 
   Calls escalate to a more specialized LLM agent or to a human agent, with additional context. 
   Only call this function if one of the available agents is appropriate. Don't transfer to your own agent type.
   
@@ -31,44 +32,49 @@ export function injectTransferTools(agentDefs: AgentConfig[]): AgentConfig[] {
   Available Agents:
   ${availableAgentsList}
         `,
-        parameters: {
-          type: "object",
-          properties: {
-            rationale_for_transfer: {
-              type: "string",
-              description: "The reasoning why this transfer is needed.",
+          parameters: {
+            type: "object",
+            properties: {
+              rationale_for_transfer: {
+                type: "string",
+                description: "The reasoning why this transfer is needed.",
+              },
+              conversation_context: {
+                type: "string",
+                description:
+                  "Relevant context from the conversation that will help the recipient perform the correct action.",
+              },
+              destination_agent: {
+                type: "string",
+                description:
+                  "The more specialized destination_agent that should handle the user’s intended request.",
+                enum: downstreamAgents.map((dAgent) => dAgent.name),
+              },
             },
-            conversation_context: {
-              type: "string",
-              description:
-                "Relevant context from the conversation that will help the recipient perform the correct action.",
-            },
-            destination_agent: {
-              type: "string",
-              description:
-                "The more specialized destination_agent that should handle the user’s intended request.",
-              enum: downstreamAgents.map((dAgent) => dAgent.name),
-            },
+            required: [
+              "rationale_for_transfer",
+              "conversation_context",
+              "destination_agent",
+            ],
           },
-          required: [
-            "rationale_for_transfer",
-            "conversation_context",
-            "destination_agent",
-          ],
         },
       };
 
       const githubDataTool: Tool = {
         type: "function",
-        name: "getGithubData",
-        description: "Get the user's Github data",
-        parameters: {
-          type: "object",
-          properties: {
-            github_username: {
-              type: "string",
-              description: "The user's Github username",
+        function: {
+          name: "get_user_data",
+          description: "Gets user data from GitHub with username",
+          parameters: {
+            type: "object",
+            required: ["username"],
+            properties: {
+              username: {
+                type: "string",
+                description: "GitHub username of the user",
+              },
             },
+            additionalProperties: false,
           },
         },
       };
@@ -94,3 +100,22 @@ export function injectTransferTools(agentDefs: AgentConfig[]): AgentConfig[] {
 
   return agentDefs;
 }
+
+export const getGithubData = async (github_username: string) => {
+  const response = await fetch("/api/github", {
+    method: "POST",
+    body: JSON.stringify({ github_username }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.json();
+};
+
+export const getBountyData = async () => {
+  const response = await fetch("/api/bounty/bountyData", {
+    method: "GET",
+  });
+
+  return response.json();
+};

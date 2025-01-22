@@ -10,33 +10,18 @@ const authentication: AgentConfig = {
   tools: [
     {
       type: "function",
-      name: "authenticateUser",
-      description: "",
-      parameters: {
-        type: "object",
-        properties: {
-          firstName: {
-            type: "string",
-            description: "The user's first name",
-          },
-          lastName: {
-            type: "string",
-            description: "The user's last name",
-          },
-          email: {
-            type: "string",
-            description: "The user's email address",
-          },
-          walletAddress: {
-            type: "string",
-            description: "The user's wallet address",
-          },
-          githubUsername: {
-            type: "string",
-            description: "The user's Github username",
+      function: {
+        name: "getGithubData",
+        description: "Get the user's Github data",
+        parameters: {
+          type: "object",
+          properties: {
+            github_username: {
+              type: "string",
+              description: "The user's Github username",
+            },
           },
         },
-        required: ["email", "walletAddress", "githubUsername"],
       },
     },
   ],

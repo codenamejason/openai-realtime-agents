@@ -25,6 +25,8 @@ export async function POST(req: Request) {
 
   const reposUrl = userDataResponse.data.repos_url;
 
+  console.log("================ REPOS URL ================= ", reposUrl);
+
   const reposResponse = await octokit.request(`GET ${reposUrl}`, {
     headers: {
       "X-GitHub-Api-Version": "2022-11-28",

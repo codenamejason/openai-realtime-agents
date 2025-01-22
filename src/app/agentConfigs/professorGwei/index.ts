@@ -1,16 +1,13 @@
 // import authenticationAgent from "./authentication";
 import bountyGuide from "./bountyGuide";
-// import githubGuide from "./githubGuide";
 import { injectTransferTools } from "../utils";
 
-// authenticationAgent.downstreamAgents = [authenticationAgent];
+// authenticationAgent.downstreamAgents = [bountyGuide];
 // bountyGuide.downstreamAgents = [authenticationAgent];
-// githubGuide.downstreamAgents = [bountyGuide, authenticationAgent];
 
 const agents = injectTransferTools([
   //   authenticationAgent,
   bountyGuide,
-//   githubGuide,
 ]);
 
 export default agents;
