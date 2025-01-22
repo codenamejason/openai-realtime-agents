@@ -10,7 +10,7 @@ githubGuide.downstreamAgents = [bountyGuide, authenticationAgent];
 const agents = injectTransferTools([
   //   authenticationAgent,
   bountyGuide,
-  //   githubGuide,
+  githubGuide,
 ]);
 
 export default agents;
