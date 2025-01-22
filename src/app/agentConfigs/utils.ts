@@ -58,6 +58,21 @@ export function injectTransferTools(agentDefs: AgentConfig[]): AgentConfig[] {
         },
       };
 
+      const githubDataTool: Tool = {
+        type: "function",
+        name: "getGithubData",
+        description: "Get the user's Github data",
+        parameters: {
+          type: "object",
+          properties: {
+            github_username: {
+              type: "string",
+              description: "The user's Github username",
+            },
+          },
+        },
+      };
+
       // Ensure the agent has a tools array
       if (!agentDef.tools) {
         agentDef.tools = [];
@@ -65,6 +80,7 @@ export function injectTransferTools(agentDefs: AgentConfig[]): AgentConfig[] {
 
       // Add the newly created tool to the current agent's tools
       agentDef.tools.push(transferAgentTool);
+      agentDef.tools.push(githubDataTool);
     }
 
     // so .stringify doesn't break with circular dependencies

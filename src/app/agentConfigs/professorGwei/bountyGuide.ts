@@ -1,5 +1,5 @@
 import { AgentConfig } from "@/app/types";
-import githubGuide from "./githubGuide";
+import authentication from "./authentication";
 
 const bountyGuide: AgentConfig = {
   name: "bountyGuide",
@@ -39,7 +39,7 @@ const bountyGuide: AgentConfig = {
   3. Maintain a supportive and attentive demeanor to ensure the user feels comfortable and informed.
   `,
   tools: [],
-  downstreamAgents: [githubGuide],
+  downstreamAgents: [authentication],
 };
 
 export default bountyGuide;

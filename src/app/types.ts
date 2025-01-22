@@ -25,6 +25,15 @@ export interface Tool {
   parameters: ToolParameters;
 }
 
+// export interface Tool {
+//   type: "function";
+//   function: {
+//     name: string;
+//     description: string;
+//     parameters: ToolParameters;
+//   };
+// }
+
 export interface AgentConfig {
   name: string;
   publicDescription: string; // gives context to agent transfer tool

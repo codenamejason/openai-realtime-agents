@@ -417,7 +417,7 @@ function App() {
             />
           </div>
           <div>
-            Realtime API <span className="text-gray-500">Agents</span>
+            Bufficorn Agent
           </div>
         </div>
         <div className="flex items-center">

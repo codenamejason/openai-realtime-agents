@@ -1,7 +1,27 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { ChatCompletionTool } from "openai/resources/chat/completions.mjs";
 
 const openai = new OpenAI();
+
+const tools = [
+  {
+    type: "function",
+    function: {
+      name: "getGithubData",
+      description: "Get the user's Github data",
+      parameters: {
+        type: "object",
+        properties: {
+          github_username: {
+            type: "string",
+            description: "The user's Github username",
+          },
+        },
+      },
+    },
+  },
+];
 
 export async function POST(req: Request) {
   try {
@@ -10,6 +30,7 @@ export async function POST(req: Request) {
     const completion = await openai.chat.completions.create({
       model,
       messages,
+      tools: tools as ChatCompletionTool[],
     });
 
     return NextResponse.json(completion);
