@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 
@@ -25,7 +25,7 @@ import { createRealtimeConnection } from "./lib/realtimeConnection";
 // Agent configs
 import { allAgentSets, defaultAgentSetKey } from "@/app/agentConfigs";
 
-function App() {
+const App = () => {
   const searchParams = useSearchParams();
 
   const { transcriptItems, addTranscriptMessage, addTranscriptBreadcrumb } =
@@ -75,22 +75,26 @@ function App() {
     setSelectedAgentName,
   });
 
-  useEffect(() => {
-    let finalAgentConfig = searchParams.get("agentConfig");
-    if (!finalAgentConfig || !allAgentSets[finalAgentConfig]) {
-      finalAgentConfig = defaultAgentSetKey;
-      const url = new URL(window.location.toString());
-      url.searchParams.set("agentConfig", finalAgentConfig);
-      window.location.replace(url.toString());
-      return;
-    }
+  const SearchParamsWrapper = () => {
+    useEffect(() => {
+      let finalAgentConfig = searchParams.get("agentConfig");
+      if (!finalAgentConfig || !allAgentSets[finalAgentConfig]) {
+        finalAgentConfig = defaultAgentSetKey;
+        const url = new URL(window.location.toString());
+        url.searchParams.set("agentConfig", finalAgentConfig);
+        window.location.replace(url.toString());
+        return;
+      }
 
-    const agents = allAgentSets[finalAgentConfig];
-    const agentKeyToUse = agents[0]?.name || "";
+      const agents = allAgentSets[finalAgentConfig];
+      const agentKeyToUse = agents[0]?.name || "";
 
-    setSelectedAgentName(agentKeyToUse);
-    setSelectedAgentConfigSet(agents);
-  }, [searchParams]);
+      setSelectedAgentName(agentKeyToUse);
+      setSelectedAgentConfigSet(agents);
+    }, [searchParams]);
+
+    return null;
+  };
 
   useEffect(() => {
     if (selectedAgentName && sessionStatus === "DISCONNECTED") {
@@ -405,6 +409,9 @@ function App() {
 
   return (
     <div className="text-base flex flex-col h-screen bg-gray-100 text-gray-800 relative">
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchParamsWrapper />
+      </Suspense>
       <div className="p-5 text-lg font-semibold flex justify-between items-center">
         <div className="flex items-center">
           <div onClick={() => window.location.reload()} style={{ cursor: 'pointer' }}>
@@ -512,6 +519,6 @@ function App() {
       />
     </div>
   );
-}
+};
 
 export default App;

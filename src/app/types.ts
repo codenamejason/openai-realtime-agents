@@ -18,21 +18,22 @@ export interface ToolParameters {
   additionalProperties?: boolean;
 }
 
-// export interface Tool {
-//   type: "function";
-//   name: string;
-//   description: string;
-//   parameters: ToolParameters;
-// }
-
 export interface Tool {
   type: "function";
-  function: {
-    name: string;
-    description: string;
-    parameters: ToolParameters;
-  };
+  name: string;
+  description: string;
+  parameters: ToolParameters;
 }
+
+// export interface Tool {
+//   type: "function";
+//   function: {
+//     name: string;
+//     description: string;
+//     parameters: ToolParameters;
+//     strict?: boolean;
+//   };
+// }
 
 export interface AgentConfig {
   name: string;
@@ -43,7 +44,9 @@ export interface AgentConfig {
     string,
     (args: any, transcriptLogsFiltered: TranscriptItem[]) => Promise<any> | any
   >;
-  downstreamAgents?: AgentConfig[] | { name: string; publicDescription: string }[];
+  downstreamAgents?:
+    | AgentConfig[]
+    | { name: string; publicDescription: string }[];
 }
 
 export type AllAgentConfigsType = Record<string, AgentConfig[]>;

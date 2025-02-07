@@ -40,5 +40,8 @@ export async function createRealtimeConnection(
 
   await pc.setRemoteDescription(answer);
 
+  console.log("pc", pc);
+  console.log("dc", dc);
+
   return { pc, dc };
 } 

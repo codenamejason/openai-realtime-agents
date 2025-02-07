@@ -118,6 +118,11 @@ export function useHandleServerEvent({
         break;
       }
 
+      case "session.updated": {
+        console.log("session.updated", serverEvent);
+        break;
+      }
+
       case "conversation.item.created": {
         let text =
           serverEvent.item?.content?.[0]?.text ||
