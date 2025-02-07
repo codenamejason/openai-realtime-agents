@@ -119,7 +119,14 @@ export function useHandleServerEvent({
       }
 
       case "session.updated": {
-        console.log("session.updated", serverEvent);
+        if (serverEvent.session?.id) {
+          setSessionStatus("CONNECTED");
+          addTranscriptBreadcrumb(
+            `session.id: ${
+              serverEvent.session.id
+            }\nStarted at: ${new Date().toLocaleString()}`
+          );
+        }
         break;
       }
 

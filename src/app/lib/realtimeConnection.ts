@@ -32,6 +32,8 @@ export async function createRealtimeConnection(
     },
   });
 
+  console.log("sdpResponse", sdpResponse);
+
   const answerSdp = await sdpResponse.text();
   const answer: RTCSessionDescriptionInit = {
     type: "answer",

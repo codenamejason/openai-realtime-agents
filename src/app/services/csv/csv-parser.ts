@@ -52,21 +52,85 @@ export class CSVParser {
       const rowNumber = i + 2; // Adding 2 to account for 0-based index and header row
 
       // Check required fields
-      if (!record.name) {
-        errors.push(`Row ${rowNumber}: Missing required field 'name'`);
+      // Based on the ETH Denver 2025 Bounty CSV file, the required fields are:
+      // Category,Name,Description,Total Prize,# Projects,Breakdown,Required to Complete,What Does Success Look Like,UI/UX Requirements,How Being Judged,What is Impact,Resource Links,Example Projects,Jobs,Sponsor Name,
+      if (!record.Category) {
+        errors.push(`Row ${rowNumber}: Missing required field 'Category'`);
       }
-      if (!record.description) {
-        errors.push(`Row ${rowNumber}: Missing required field 'description'`);
+      if (!record.Name) {
+        errors.push(`Row ${rowNumber}: Missing required field 'Name'`);
       }
-      if (!record.prizeAmount) {
-        errors.push(`Row ${rowNumber}: Missing required field 'prizeAmount'`);
+      if (!record.Description) {
+        errors.push(`Row ${rowNumber}: Missing required field 'Description'`);
+      }
+      if (!record.TotalPrize) {
+        errors.push(`Row ${rowNumber}: Missing required field 'Total Prize'`);
+      }
+      if (!record.Breakdown) {
+        errors.push(`Row ${rowNumber}: Missing required field 'Breakdown'`);
+      }
+      if (!record.RequiredtoComplete) {
+        errors.push(
+          `Row ${rowNumber}: Missing required field 'Required to Complete'`
+        );
+      }
+      if (!record.WhatDoesSuccessLookLike) {
+        errors.push(
+          `Row ${rowNumber}: Missing required field 'What Does Success Look Like'`
+        );
+      }
+      if (!record.UIUXRequirements) {
+        errors.push(
+          `Row ${rowNumber}: Missing required field 'UI/UX Requirements'`
+        );
+      }
+      if (!record.HowBeingJudged) {
+        errors.push(
+          `Row ${rowNumber}: Missing required field 'How Being Judged'`
+        );
+      }
+      if (!record.WhatIsImpact) {
+        errors.push(
+          `Row ${rowNumber}: Missing required field 'What is Impact'`
+        );
+      }
+      if (!record.ResourceLinks) {
+        errors.push(
+          `Row ${rowNumber}: Missing required field 'Resource Links'`
+        );
+      }
+      if (!record.ExampleProjects) {
+        errors.push(
+          `Row ${rowNumber}: Missing required field 'Example Projects'`
+        );
+      }
+      // if (!record.Jobs) {
+      //   errors.push(`Row ${rowNumber}: Missing required field 'Jobs'`);
+      // }
+      if (!record.SponsorName) {
+        errors.push(`Row ${rowNumber}: Missing required field 'Sponsor Name'`);
       }
 
-      if (record.name && record.description && record.prizeAmount) {
+      if (
+        record.Category &&
+        record.Name &&
+        record.Description &&
+        record.TotalPrize &&
+        record.Breakdown &&
+        record.RequiredtoComplete &&
+        record.WhatDoesSuccessLookLike &&
+        record.UIUXRequirements &&
+        record.HowBeingJudged &&
+        record.WhatIsImpact &&
+        record.ResourceLinks &&
+        record.ExampleProjects &&
+        // record.Jobs &&
+        record.SponsorName
+      ) {
         const bounty: Bounty = {
-          name: record.name,
-          description: record.description || "",
-          trackId: record.prizeAmount,
+          name: record.Name,
+          description: record.Description || "",
+          trackId: record.TotalPrize,
         };
         bounties.push(bounty);
       }
